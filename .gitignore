@@ -1,0 +1,10 @@
+echo "# Python cache" > .gitignore
+echo "__pycache__/" >> .gitignore
+echo "*.pyc" >> .gitignore
+echo "" >> .gitignore
+echo "# Large data files" >> .gitignore
+echo "*.csv" >> .gitignore
+echo "# Model files (we'll add them specifically)" >> .gitignore
+echo "*.pkl" >> .gitignore
+echo "!house_price_model.pkl" >> .gitignore
+echo "!scaler.pkl" >> .gitignore
