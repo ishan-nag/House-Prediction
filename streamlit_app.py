@@ -5,7 +5,6 @@ import joblib
 import json
 import xgboost as xgb
 
-# SET PAGE CONFIG - MUST BE FIRST
 st.set_page_config(page_title="India House Price Predictor", layout="wide")
 
 @st.cache_resource
@@ -21,11 +20,10 @@ def load_feature_info():
 model = load_model()
 feature_info = load_feature_info()
 
-# SIMPLE INTERFACE
 st.title("🏡 India House Price Predictor")
 st.markdown("**Predict house prices with 81% accuracy**")
 
-# INPUTS IN COLUMNS
+# input in col
 col1, col2 = st.columns(2)
 
 with col1:
@@ -41,12 +39,12 @@ with col2:
     condition = st.selectbox("Condition", ["Poor", "Fair", "Good", "Very Good", "Excellent"], index=2)
     grade = st.selectbox("Grade (1-10)", list(range(1, 11)), index=6)
 
-# PREDICT BUTTON
+# button
 if st.button("PREDICT PRICE", type="primary"):
-    # SIMPLE CALCULATION FOR NOW
+    # SIMPLE CALCULATION 
     base_price = living_area * 10000  # ₹10,000 per sq.ft base
     
-    # Adjust for area type
+    # Adjustment for area type
     if area_type == "Luxury":
         base_price *= 2.5
     elif area_type == "Premium":
@@ -56,7 +54,7 @@ if st.button("PREDICT PRICE", type="primary"):
     else:  # Low Cost
         base_price *= 0.6
     
-    # Adjust for condition
+    # Adjustment for condition
     if condition == "Excellent":
         base_price *= 1.3
     elif condition == "Very Good":
@@ -69,22 +67,22 @@ if st.button("PREDICT PRICE", type="primary"):
         base_price *= 0.7
     
     # Adjust for grade
-    grade_multiplier = 0.7 + (grade * 0.03)  # Grade 1=0.73, Grade 10=1.0
+    grade_multiplier = 0.7 + (grade * 0.03) 
     base_price *= grade_multiplier
     
-    # Adjust for bedrooms/bathrooms
+    # Adjustment for rooms
     if bedrooms >= 4:
         base_price *= 1.2
     if bathrooms >= 3:
         base_price *= 1.1
     
-    # Display result
+    # result
     st.success(f"Estimated Price: ₹{base_price:,.0f}")
     st.info(f"That's ₹{base_price/10000000:.2f} Crores or ₹{base_price/100000:.2f} Lakhs")
     
     st.metric("Price per sq.ft", f"₹{base_price/living_area:,.0f}")
 
-# SIDEBAR INFO
+# side
 with st.sidebar:
     st.header("Model Info")
     if feature_info:
